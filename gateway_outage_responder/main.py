@@ -8,12 +8,9 @@ import urllib2
 logger = logging.getLogger(__name__)
 
 
-def internet_is_accessible():
+def url_is_accessible(url):
     try:
-        urllib2.urlopen(
-            'http://google.com',
-            timeout=5
-        )
+        urllib2.urlopen(url, timeout=5)
         return True
     except urllib2.URLError:
         pass
@@ -59,6 +56,7 @@ def plug_in_router():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--logfile')
+    parser.add_argument('--url', default='http://google.com')
 
     args = parser.parse_args()
 
@@ -71,7 +69,7 @@ def main():
 
     logging.basicConfig(**logging_kwargs)
 
-    if not internet_is_accessible():
+    if not url_is_accessible(args.url):
         logger.warning('Internet appears to be offline.')
         unplug_cable_modem()
         unplug_router()
