@@ -57,8 +57,6 @@ def plug_in_router():
 
 
 def main():
-    time.sleep(15)
-
     parser = argparse.ArgumentParser()
     parser.add_argument('--logfile')
 
