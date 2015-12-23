@@ -1,3 +1,4 @@
+import argparse
 import logging
 import subprocess
 import time
@@ -56,12 +57,29 @@ def plug_in_router():
 
 
 def main():
+    time.sleep(15)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--logfile')
+
+    args = parser.parse_args()
+
+    logging_kwargs = {
+        'level': logging.DEBUG,
+        'format': '%(asctime)s [%(levelname)s] %(message)s'
+    }
+    if args.logfile:
+        logging_kwargs['filename'] = args.logfile
+
+    logging.basicConfig(**logging_kwargs)
+
     if not internet_is_accessible():
-        unplug_router()
+        logger.warning('Internet appears to be offline.')
         unplug_cable_modem()
-
-        plug_in_cable_modem()
-
-        time.sleep(20)
+        unplug_router()
 
         plug_in_router()
+        time.sleep(60)
+        plug_in_cable_modem()
+    else:
+        logger.info('Internet appears to be accessible.')
