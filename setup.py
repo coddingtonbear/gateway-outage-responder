@@ -16,6 +16,9 @@ setup(
         'Programming Language :: Python :: 3',
     ],
     packages=find_packages(),
+    requirements=[
+        'stanley-outlet-control',
+    ],
     entry_points={
         'console_scripts': [
             'gateway-outage-responder = gateway_outage_responder.main:main'
