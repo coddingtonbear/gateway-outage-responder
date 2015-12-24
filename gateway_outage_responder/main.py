@@ -17,37 +17,37 @@ def url_is_accessible(url):
     return False
 
 
-def unplug_cable_modem():
+def unplug_cable_modem(binpath):
     logger.debug('Turning off cable modem outlet...')
     subprocess.call([
-        'stanley-outlet-control',
+        binpath,
         '1',
         'off'
     ])
 
 
-def plug_in_cable_modem():
+def plug_in_cable_modem(binpath):
     logger.debug('Turning on cable modem outlet...')
     subprocess.call([
-        'stanley-outlet-control',
+        binpath,
         '1',
         'on'
     ])
 
 
-def unplug_router():
+def unplug_router(binpath):
     logger.debug('Turning off router outlet...')
     subprocess.call([
-        'stanley-outlet-control',
+        binpath,
         '2',
         'off'
     ])
 
 
-def plug_in_router():
+def plug_in_router(binpath):
     logger.debug('Turning on router outlet...')
     subprocess.call([
-        'stanley-outlet-control',
+        binpath,
         '2',
         'on'
     ])
@@ -57,6 +57,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--logfile')
     parser.add_argument('--url', default='http://google.com')
+    parser.add_argument('--stanley-path', default='stanley-outlet-control')
 
     args = parser.parse_args()
 
@@ -71,11 +72,11 @@ def main():
 
     if not url_is_accessible(args.url):
         logger.warning('Internet appears to be offline.')
-        unplug_cable_modem()
-        unplug_router()
+        unplug_cable_modem(args.stanley_path)
+        unplug_router(args.stanley_path)
 
-        plug_in_router()
+        plug_in_router(args.stanley_path)
         time.sleep(60)
-        plug_in_cable_modem()
+        plug_in_cable_modem(args.stanley_path)
     else:
         logger.info('Internet appears to be accessible.')

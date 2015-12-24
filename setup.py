@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='gateway-outage-responder',
-    version='1.1',
+    version='1.1.1',
     url='https://github.com/coddingtonbear/gateway-outage-responder',  # noqa
     description=(
         'If it looks like the internet is out; do something!'
